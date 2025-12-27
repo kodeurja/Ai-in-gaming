@@ -32,12 +32,12 @@ This guide outlines how to host your backend on **Render** (as an API) and your 
 
 ## 🔵 Part 2: Configure Frontend Environment
 
-The frontend is agnostic and will pull your Render URL during the Vercel build process. **Do not hardcode your URL in the the JS files.**
+The frontend uses **Vite** for native environment support. **Do not hardcode URLs.**
 
 1.  Open your **Vercel Dashboard**.
 2.  Go to **Settings > Environment Variables**.
 3.  Add a new variable:
-    -   **Key**: `BACKEND_URL`
+    -   **Key**: `VITE_BACKEND_URL` (Wait! It must start with `VITE_`)
     -   **Value**: `https://ai-gaming-backend.onrender.com` (Your Render URL)
 
 ---
@@ -45,15 +45,14 @@ The frontend is agnostic and will pull your Render URL during the Vercel build p
 ## 🟡 Part 3: Deploy Frontend (Vercel)
 
 1.  **Project Settings**:
-    -   **Framework Preset**: `Other` (Vercel will detect the `package.json`)
+    -   **Framework Preset**: `Vite` (Vercel will detect the `package.json` and `vite.config.js`)
     -   **Root Directory**: `frontend`
 2.  **Build & Development Settings**:
-    -   **Build Command**: `npm run build`
-    -   **Output Directory**: `.`
-3.  **Click Deploy**. Vercel will run `inject-config.js` to swap `__BACKEND_URL__` for your real Render Link.
+    -   Vercel will automatically set the build command to `npm run build` and the output directory to `dist`.
+3.  **Click Deploy**. Vercel will build the project and bake your `VITE_BACKEND_URL` into the production assets.
 
-> [!IMPORTANT]
-> If your site still shows `404 /__BACKEND_URL__/signup`, check your **Vercel Build Logs**. If the injection script fails (e.g., missing variable), the build will fail, preventing broken code from going live.
+> [!TIP]
+> Vite handles multi-page application (MPA) support via the `vite.config.js` I've created. All your `.html` files will be bundled into the `dist` folder.
 
 ---
 

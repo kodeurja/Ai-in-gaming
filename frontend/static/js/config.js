@@ -1,7 +1,6 @@
-// This file is updated at build time by Vercel
+// Vite uses import.meta.env for environment variables
 const CONFIG = {
-    // Placeholder will be replaced by the BACKEND_URL environment variable during build
-    API_BASE_URL: "__BACKEND_URL__"
+    API_BASE_URL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"
 };
 
 export default CONFIG;
