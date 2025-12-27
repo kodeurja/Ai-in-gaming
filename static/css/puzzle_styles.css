@@ -1,0 +1,559 @@
+/* Puzzle Gate Styles */
+:root {
+    --primary: #00f3ff;
+    --secondary: #7000ff;
+    --danger: #ff0055;
+    --success: #00ffaa;
+    --bg-dark: #0a0a0f;
+}
+
+.puzzle-gate-overlay {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #0a0a0f, #000);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.puzzle-header {
+    height: 120px;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+}
+
+.tag {
+    background: var(--primary);
+    color: #000;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.crossword-cell.pattern-node {
+    /* Fix overlap from memory game */
+    background: transparent;
+}
+
+.active-word-cell {
+    background: rgba(0, 243, 255, 0.15) !important;
+    border-radius: 4px;
+}
+
+.puzzle-controls button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #333;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    transition: 0.3s;
+}
+
+.puzzle-controls button:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.btn-retry {
+    color: var(--danger) !important;
+}
+
+.puzzle-stage {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.puzzle-canvas-container {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    max-height: calc(100vh - 160px);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    display: grid;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+    /* Ensure content stays inside */
+    box-sizing: border-box;
+}
+
+/* Grid Specifics */
+.puzzle-grid {
+    display: grid;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.cell {
+    border: 1px solid rgba(0, 243, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background: rgba(0, 243, 255, 0.05);
+}
+
+/* Pattern Memory Specifics */
+.pattern-node {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.pattern-node.active {
+    background: var(--primary) !important;
+    box-shadow: 0 0 30px var(--primary);
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes shake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+/* Laser Redirect Specifics */
+.laser-cell {
+    position: relative;
+}
+
+.laser-active {
+    background: rgba(255, 0, 0, 0.2) !important;
+    box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.4);
+}
+
+.laser-source {
+    color: #00f3ff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00f3ff;
+    font-size: 1.5rem;
+}
+
+.laser-target {
+    color: #ff0055;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff0055;
+    font-size: 1.5rem;
+}
+
+.mirror {
+    font-size: 2.5rem;
+    color: var(--primary);
+    text-shadow: 0 0 15px var(--primary);
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.3s;
+}
+
+/* Block Blast Specifics */
+.block-blast-grid {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(0, 243, 255, 0.2);
+}
+
+.blast-cell.filled {
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    border: none;
+}
+
+.blocks-container {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.block-preview {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Maze Path Finder Styles */
+.maze-grid {
+    border: 2px solid var(--primary-dim);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.maze-cell {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 20, 40, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.maze-cell:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.maze-wall {
+    background: #0d1117;
+    border-color: #21262d;
+    cursor: not-allowed;
+    background-image: repeating-linear-gradient(45deg, #161b22 0, #161b22 5px, #0d1117 5px, #0d1117 10px);
+}
+
+.maze-start {
+    background: #00ffaa !important;
+    box-shadow: 0 0 10px #00ffaa;
+    position: relative;
+}
+
+.maze-start::after {
+    content: 'S';
+    color: #000;
+    font-weight: bold;
+    position: absolute;
+    top: 12px;
+    left: 18px;
+}
+
+.maze-end {
+    background: #ff0055 !important;
+    box-shadow: 0 0 10px #ff0055;
+    position: relative;
+}
+
+.maze-end::after {
+    content: 'E';
+    color: #fff;
+    font-weight: bold;
+    position: absolute;
+    top: 12px;
+    left: 18px;
+}
+
+.active-path {
+    background: rgba(0, 243, 255, 0.4);
+    box-shadow: inset 0 0 10px var(--primary);
+}
+
+.current-head {
+    background: var(--primary);
+    border: 1px solid #fff;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.block-preview.selected {
+    border-color: var(--primary);
+    background: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+}
+
+.block-mini-cell {
+    background: var(--primary);
+    width: 18px;
+    height: 18px;
+    margin: 1px;
+}
+
+/* Tile Matching / Memory Specifics */
+.tile {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tile.selected {
+    border-color: var(--primary);
+    background: rgba(0, 243, 255, 0.1);
+}
+
+.tile.matched {
+    background: rgba(0, 255, 170, 0.1);
+    border-color: var(--success);
+    color: var(--success);
+    cursor: default;
+}
+
+/* Circuit Path Specifics */
+.circuit-cell {
+    position: relative;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.circuit-cell.source {
+    border-left: 4px solid #00f3ff;
+}
+
+.circuit-cell.target {
+    border-right: 4px solid #ff0055;
+}
+
+.circuit-cell .label {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 10;
+}
+
+.segment {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.segment::before,
+.segment::after {
+    content: '';
+    position: absolute;
+    background: #222;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Straight Pipe */
+.segment-I::before {
+    width: 100%;
+    height: 12px;
+    top: calc(50% - 6px);
+    left: 0;
+}
+
+/* Corner Pipe */
+.segment-L::before {
+    width: 60%;
+    height: 12px;
+    top: calc(50% - 6px);
+    left: 40%;
+}
+
+.segment-L::after {
+    width: 12px;
+    height: 60%;
+    top: 40%;
+    left: calc(50% - 6px);
+}
+
+.powered::before,
+.powered::after {
+    background: var(--primary) !important;
+    box-shadow: 0 0 20px var(--primary);
+}
+
+/* Success Modal */
+.puzzle-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+.modal-content {
+    padding: 40px;
+    text-align: center;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 30px var(--primary);
+    background: #000;
+}
+
+/* Glitch Effect */
+.glitch-text {
+    position: relative;
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+
+    2% {
+        transform: translate(-2px, 2px);
+    }
+
+    4% {
+        transform: translate(-2px, -2px);
+    }
+
+    6% {
+        transform: translate(2px, 2px);
+    }
+
+    8% {
+        transform: translate(2px, -2px);
+    }
+
+    10% {
+        transform: translate(0);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- JIGSAW RECONSTITUTION --- */
+.jigsaw-tile {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    border: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+.jigsaw-tile:active {
+    cursor: grabbing;
+}
+
+.jigsaw-tile.dragging {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+.jigsaw-tile.drag-over {
+    border-color: var(--primary) !important;
+    background-color: rgba(0, 243, 255, 0.1);
+    box-shadow: 0 0 20px var(--primary-dim);
+}
+
+.jigsaw-tile:hover {
+    border-color: var(--primary);
+    z-index: 10;
+}
+
+/* --- TOWER OF HANOI --- */
+.hanoi-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 100px;
+    /* Increased from 20px for better spacing */
+    margin-top: 20px;
+    height: 300px;
+}
+
+.hanoi-rod {
+    width: 20px;
+    height: 200px;
+    background: rgba(0, 243, 255, 0.3);
+    /* Increased opacity */
+    border: 1px solid var(--primary);
+    /* Added border */
+    border-radius: 10px 10px 0 0;
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.hanoi-rod::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: -60px;
+    width: 140px;
+    height: 10px;
+    background: var(--surface-light);
+    border-radius: 5px;
+}
+
+.hanoi-rod:hover {
+    background: var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.hanoi-rod.selected-rod {
+    background: #fff;
+    box-shadow: 0 0 20px #fff;
+}
+
+.hanoi-rod.valid-target {
+    border: 2px dashed var(--accent);
+}
+
+.hanoi-disk {
+    height: 25px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border: 1px solid #fff;
+    z-index: 2;
+    transition: transform 0.2s, margin 0.2s;
+    margin-bottom: 2px;
+}
+
+.hanoi-disk.selected {
+    transform: translateY(-230px);
+    /* Lift high above rod */
+    box-shadow: 0 0 15px var(--accent);
+    z-index: 100;
+}
+
+.hanoi-stats {
+    display: flex;
+    gap: 30px;
+    color: var(--primary);
+    font-family: 'Orbitron', monospace;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}

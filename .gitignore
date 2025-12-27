@@ -1,0 +1,9 @@
+.env
+api_keys.md
+__pycache__/
+instance/
+*.pyc
+venv/
+.pytest_cache/
+.DS_Store
+*.db
