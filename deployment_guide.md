@@ -48,7 +48,8 @@ The frontend is agnostic and will pull your Render URL during the Vercel build p
     -   **Framework Preset**: `Other`
     -   **Root Directory**: `frontend`
 2.  **Build & Development Settings**:
-    -   **Build Command**: `sed -i "s|__BACKEND_URL__|${BACKEND_URL}|g" static/js/config.js`
+    -   **Build Command**: `node inject-config.js`
+ Riverside: Added Phase 14 conversion summary.
     -   **Output Directory**: `.`
 3.  **Click Deploy**. Vercel will now automatically inject your Render link into the code during the build.
 
