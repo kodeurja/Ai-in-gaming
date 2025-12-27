@@ -26,30 +26,27 @@ This guide outlines how to host your backend on **Render** (as an API) and your 
 
 ---
 
-## 🔵 Part 2: Configure Frontend API Discovery
+## 🔵 Part 2: Configure Frontend Environment
 
-Before deploying to Vercel, you must point the frontend to your Render URL.
+The frontend is agnostic and will pull your Render URL during the Vercel build process. **Do not hardcode your URL in the the JS files.**
 
-1.  Open `frontend/static/js/config.js`.
-2.  Update the `API_BASE_URL`:
-    ```javascript
-    const CONFIG = {
-        API_BASE_URL: "https://your-render-app-url.onrender.com" // REPLACE THIS
-    };
-    ```
-3.  **Commit and Push** this change to GitHub.
+1.  Open your **Vercel Dashboard**.
+2.  Go to **Settings > Environment Variables**.
+3.  Add a new variable:
+    -   **Key**: `BACKEND_URL`
+    -   **Value**: `https://ai-gaming-backend.onrender.com` (Your Render URL)
 
 ---
 
 ## 🟡 Part 3: Deploy Frontend (Vercel)
 
-1.  **Log in to Vercel** and click **Add New > Project**.
-2.  **Import your GitHub Repository**: `Ai-in-gaming`.
-3.  **Project Settings**:
-    -   **Framework Preset**: `Other` (or `Vite/React` if prompted, but `Other` is fine for static).
-    -   **Root Directory**: Click "Edit" and select the `frontend` folder.
-4.  **Click Deploy**.
-5.  Vercel will provide a URL (e.g., `https://ai-gaming-frontend.vercel.app`).
+1.  **Project Settings**:
+    -   **Framework Preset**: `Other`
+    -   **Root Directory**: `frontend`
+2.  **Build & Development Settings**:
+    -   **Build Command**: `sed -i "s|__BACKEND_URL__|${BACKEND_URL}|g" static/js/config.js`
+    -   **Output Directory**: `.`
+3.  **Click Deploy**. Vercel will now automatically inject your Render link into the code during the build.
 
 ---
 

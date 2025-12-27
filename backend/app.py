@@ -15,10 +15,14 @@ from ai_engine import AIEngine
 # Initialize AI Engine
 ai_engine = AIEngine()
 
+# Static folder for frontend assets
 app = Flask(__name__, 
-            template_folder='../frontend/templates', 
+            template_folder='../frontend', 
             static_folder='../frontend/static')
-CORS(app, supports_credentials=True)
+
+# Dynamic CORS based on Environment
+frontend_url = os.getenv('FRONTEND_URL', '*')
+CORS(app, supports_credentials=True, origins=[frontend_url, "http://127.0.0.1:5500", "http://localhost:5500"])
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-dev-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
