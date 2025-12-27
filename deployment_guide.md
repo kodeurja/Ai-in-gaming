@@ -45,13 +45,15 @@ The frontend is agnostic and will pull your Render URL during the Vercel build p
 ## 🟡 Part 3: Deploy Frontend (Vercel)
 
 1.  **Project Settings**:
-    -   **Framework Preset**: `Other`
+    -   **Framework Preset**: `Other` (Vercel will detect the `package.json`)
     -   **Root Directory**: `frontend`
 2.  **Build & Development Settings**:
-    -   **Build Command**: `node inject-config.js`
- Riverside: Added Phase 14 conversion summary.
+    -   **Build Command**: `npm run build`
     -   **Output Directory**: `.`
-3.  **Click Deploy**. Vercel will now automatically inject your Render link into the code during the build.
+3.  **Click Deploy**. Vercel will run `inject-config.js` to swap `__BACKEND_URL__` for your real Render Link.
+
+> [!IMPORTANT]
+> If your site still shows `404 /__BACKEND_URL__/signup`, check your **Vercel Build Logs**. If the injection script fails (e.g., missing variable), the build will fail, preventing broken code from going live.
 
 ---
 
