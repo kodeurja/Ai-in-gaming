@@ -24,6 +24,7 @@ This guide outlines how to host your backend on **Render** (as an API) and your 
     -   `SECRET_KEY`: A long random string.
     -   `FRONTEND_URL`: Your Vercel URL (e.g., `https://ai-gaming-frontend.vercel.app`)
 5.  **Wait for Deployment**: Once "Live", copy your backend URL (e.g., `https://ai-gaming-backend.onrender.com`).
+6.  **Verify Backend Health**: Visit `https://your-backend-url.onrender.com/api/health`. You should see `{"status": "healthy"}`. If you see an error, check Render "Logs".
 
 > [!WARNING]
 > If you see an error like `ModuleNotFoundError: No module named 'your_application'`, it means Render is using its default start command. Go to your **Web Service Settings > General** and manually change the **Start Command** to `gunicorn --chdir backend app:app`.
@@ -63,5 +64,6 @@ The backend is configured to accept requests with credentials. Ensure your `SECR
 
 ## ✅ Verification
 1.  Visit your Vercel URL.
-2.  Try to Sign Up.
+2.  Check the browser console (F12). You should no longer see `favicon.ico` or `__BACKEND_URL__` errors.
+3.  Try to Sign Up. If it works, the system is fully healthy!
 3.  If successful, you will be redirected to the Persona page, confirming the Frontend-Backend bridge is active!

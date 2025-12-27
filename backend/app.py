@@ -24,7 +24,11 @@ app = Flask(__name__,
 frontend_url = os.getenv('FRONTEND_URL', '*')
 CORS(app, supports_credentials=True, origins=[frontend_url, "http://127.0.0.1:5500", "http://localhost:5500"])
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-dev-key')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///site.db')
+db_url = os.getenv('DATABASE_URL', 'sqlite:///test.db')
+if db_url and db_url.startswith("postgres://") or db_url == "postgresql://": # Fix for some platforms
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Cross-domain session settings
@@ -32,6 +36,14 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
 db.init_app(app)
+
+# Ensure tables are created (especially for Supabase first-run)
+with app.app_context():
+    try:
+        db.create_all()
+        print("Database initialized successfully.")
+    except Exception as e:
+        print(f"Database initialization error: {e}")
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -62,6 +74,10 @@ def get_or_create_game_state(user_id):
     return state
 
 # --- Routes ---
+
+@app.route("/api/health")
+def health():
+    return jsonify({"status": "healthy", "database": str(db.engine.url.drivername)})
 
 @app.route("/")
 @app.route("/home")
