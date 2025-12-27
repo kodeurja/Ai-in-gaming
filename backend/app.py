@@ -14,7 +14,9 @@ from ai_engine import AIEngine
 # Initialize AI Engine
 ai_engine = AIEngine()
 
-app = Flask(__name__)
+app = Flask(__name__, 
+            template_folder='../frontend/templates', 
+            static_folder='../frontend/static')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-dev-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -334,9 +336,9 @@ def reboot_puzzle():
 
 def init_db():
     with app.app_context():
-        db.drop_all() # Reset for transformation
+        # db.drop_all() # Removed for Supabase persistence
         db.create_all()
-        print("Database reset and initialized.")
+        print("Database initialized.")
 
 if __name__ == '__main__':
     # Force reset if models changed

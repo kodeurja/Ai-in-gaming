@@ -4,3 +4,4 @@ flask-login
 python-dotenv
 requests
 groq
+psycopg2-binary
