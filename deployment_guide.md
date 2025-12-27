@@ -17,12 +17,16 @@ This guide outlines how to host your backend on **Render** (as an API) and your 
     -   **Environment**: `Python 3`
     -   **Region**: (Choose closest to you)
     -   **Build Command**: `pip install -r backend/requirements.txt`
-    -   **Start Command**: `gunicorn --chdir backend app:app`
+    -   **Start Command**: `gunicorn --chdir backend app:app` (IMPORTANT: Ensure this is set correctly in settings)
 4.  **Environment Variables**:
     -   `DATABASE_URL`: Your Supabase connection string.
     -   `GROQ_API_KEY`: Your Groq API key.
     -   `SECRET_KEY`: A long random string.
+    -   `FRONTEND_URL`: Your Vercel URL (e.g., `https://ai-gaming-frontend.vercel.app`)
 5.  **Wait for Deployment**: Once "Live", copy your backend URL (e.g., `https://ai-gaming-backend.onrender.com`).
+
+> [!WARNING]
+> If you see an error like `ModuleNotFoundError: No module named 'your_application'`, it means Render is using its default start command. Go to your **Web Service Settings > General** and manually change the **Start Command** to `gunicorn --chdir backend app:app`.
 
 ---
 
