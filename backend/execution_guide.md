@@ -7,24 +7,20 @@ Follow these steps to set up and run the project on your local machine.
 - An API Key (Groq or Gemini) - see `api_keys.md`.
 
 ## Step 1: Install Dependencies
-Open your terminal (Command Prompt or PowerShell) in the project folder and run:
+Open your terminal in the project folder and run:
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
 ## Step 2: Configure Environment
-1.  Copy the `.env.example` file and rename it to `.env`.
-2.  Open `.env` in a text editor.
-3.  Paste your API Key next to `GROQ_API_KEY=`.
-    ```
-    GROQ_API_KEY=gsk_...
-    SECRET_KEY=your_secret_key_here
-    ```
+1.  Navigate to the `backend` folder.
+2.  Copy the `.env.example` file and rename it to `.env`.
+3.  Open `.env` in a text editor and add your `GROQ_API_KEY` and `DATABASE_URL` (for Supabase).
 
 ## Step 3: Run the Application
-Run the Flask server:
+Run the Flask server from the root directory:
 ```bash
-python app.py
+python backend/app.py
 ```
 You should see output indicating the server is running, usually at `http://127.0.0.1:5000`.
 
