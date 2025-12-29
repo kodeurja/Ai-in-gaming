@@ -119,6 +119,10 @@
             btn.disabled = false;
         };
 
+        document.getElementById('finish-btn').onclick = () => {
+            window.location.href = 'game_dashboard.html';
+        };
+
         document.getElementById('reboot-btn').onclick = async () => {
             if (confirm("REBOOT SYSTEM? This will regenerate a new puzzle.")) {
                 const res = await fetch(`${CONFIG.API_BASE_URL}/api/reboot_puzzle`, {
