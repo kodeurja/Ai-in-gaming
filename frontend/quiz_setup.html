@@ -125,7 +125,7 @@
                 });
                 const data = await res.json();
                 if (data.success) {
-                    window.location.href = `quiz.html?quiz_id=${data.quiz_id}`;
+                    window.location.href = `quiz.html?quiz_id=${data.quiz_id}&step=${step}`;
                 } else {
                     showCustomModal("INITIALIZATION FAILED", ">> ERROR: UNABLE TO ESTABLISH NEURAL LINK. RETRY.", false);
                     btn.innerText = "INITIATE SEQUENCE";

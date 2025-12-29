@@ -376,11 +376,14 @@ def submit_quiz():
     db.session.commit()
     
     state = get_or_create_game_state(current_user.id)
-    # After passing quiz, go to the puzzle for this gate
+    
+    # Redirect to the specific step if provided (context preservation), else highest unlocked
+    target_step = data.get('step') or state.current_step
+    
     return jsonify({
         "success": True, 
         "passed": True, 
-        "redirect": f"puzzle.html?step={state.current_step}"
+        "redirect": f"puzzle.html?step={target_step}"
     })
 
 @app.route("/api/puzzle/<int:step>")

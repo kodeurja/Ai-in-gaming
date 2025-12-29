@@ -65,6 +65,7 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const quizId = urlParams.get('quiz_id');
+        const step = urlParams.get('step');
         let quizData = [];
         let currentIdx = 0;
         let answers = [];
@@ -137,12 +138,15 @@
         }
 
         async function submitQuiz() {
-            document.getElementById('question-text').innerText = ">> FINALIZING SEQUENCE...";
-            document.getElementById('options-container').innerHTML = '<div class="pulsar-effect" style="color:var(--primary); text-align:center;">CALCULATING NEURAL CHECKSUM...</div>';
+            const qText = document.getElementById('question-text');
+            if (qText) qText.innerText = ">> FINALIZING SEQUENCE...";
+            const optsDiv = document.getElementById('options-container');
+            if (optsDiv) optsDiv.innerHTML = '<div class="pulsar-effect" style="color:var(--primary); text-align:center;">CALCULATING NEURAL CHECKSUM...</div>';
+
             const res = await fetch(`${CONFIG.API_BASE_URL}/api/submit_quiz`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ quiz_id: quizId, answers: answers }),
+                body: JSON.stringify({ quiz_id: quizId, answers: answers, step: step }),
                 credentials: 'include'
             });
             const data = await res.json();
