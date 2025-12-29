@@ -47,11 +47,11 @@
                 <div id="puzzle-success-modal" class="puzzle-modal" style="display:none;">
                     <div class="modal-content glass celebration">
                         <div class="confetti-container"></div>
-                        <h2 class="animate-reveal">NODE SYNCHRONIZED</h2>
-                        <p class="animate-reveal" style="animation-delay: 0.2s;">Gateway stability 100%. Initializing
-                            hyper-jump sequence...</p>
+                        <h2 class="animate-reveal">PUZZLE SOLVED</h2>
+                        <p class="animate-reveal" style="animation-delay: 0.2s;">Sequence Verified. Ready for next
+                            protocol.</p>
                         <button class="btn-primary animate-reveal pulsar-effect" id="finish-btn"
-                            style="animation-delay: 0.4s;">ENGAGE WARP</button>
+                            style="animation-delay: 0.4s;">OK</button>
                     </div>
                 </div>
             </div>
@@ -104,10 +104,6 @@
             console.log("Puzzle solved response:", data);
             if (data.success) {
                 console.log("Navigating to:", data.next_url);
-                // Visual feedback for user
-                const nextStep = data.next_url.includes('quiz_setup') ? "GATE " + data.next_url.split('=')[1] : "DASHBOARD";
-                alert(`PUZZLE SOLVED! \n\nSync Complete. \nNavigating to: ${nextStep} PROTOCOL.`);
-
                 window.location.href = data.next_url;
             }
         };
