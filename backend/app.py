@@ -250,7 +250,17 @@ def solve_puzzle():
     state = GameState.query.filter_by(user_id=current_user.id).first()
     log = PuzzleLog.query.filter_by(user_id=current_user.id, cycle=state.current_cycle, step=step).first()
     
-    if log:
+    if not log:
+        # Lazy creation of log if it doesn't exist
+        log = PuzzleLog(
+            user_id=current_user.id, 
+            cycle=state.current_cycle, 
+            step=step,
+            solved=False # Will be set to true below
+        )
+        db.session.add(log)
+    
+    if log: # Should always be true now
         log.solved = True
         log.solved_at = datetime.utcnow()
         if state.current_step == step:
