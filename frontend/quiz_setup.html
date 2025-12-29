@@ -27,7 +27,7 @@
             <div class="dashboard-container">
                 <div class="header-section">
                     <h1>THE GAUNTLET</h1>
-                    <p class="subtitle">Select Difficulty Protocol</p>
+                    <p class="subtitle" id="setup-subtitle">Select Difficulty Protocol</p>
                 </div>
 
                 <div class="quiz-container">
@@ -78,6 +78,15 @@
             document.querySelectorAll('.difficulty-card').forEach(c => c.classList.remove('selected'));
             event.currentTarget.classList.add('selected');
         };
+
+        // Display Gate Number
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const step = urlParams.get('step');
+            if (step) {
+                document.getElementById('setup-subtitle').innerText = `GATE ${step} // Select Difficulty Protocol`;
+            }
+        });
 
         function showCustomModal(title, message, isSuccess, callback) {
             const overlay = document.getElementById('modal-overlay');

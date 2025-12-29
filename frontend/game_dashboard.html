@@ -24,10 +24,16 @@
         </nav>
 
         <main class="content">
-            <div class="landing-page" style="text-align: left; padding: 2rem 4rem;">
-                <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: #fff;">GATEWAY DASHBOARD</h1>
-                <p id="user-status" style="color: var(--text-muted); letter-spacing: 2px;">SECURE CONNECTION ESTABLISHED
-                    // USER: LOADING...</p>
+            <div class="landing-page"
+                style="text-align: left; padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 style="font-size: 3rem; margin-bottom: 0.5rem; color: #fff;">GATEWAY DASHBOARD</h1>
+                    <p id="user-status" style="color: var(--text-muted); letter-spacing: 2px;">SECURE CONNECTION
+                        ESTABLISHED
+                        // USER: LOADING...</p>
+                </div>
+                <button id="reset-btn" class="btn-logout"
+                    style="background: rgba(255, 0, 0, 0.2); border-color: red;">⚠️ RESET PROGRESS</button>
             </div>
 
             <div id="gates-grid" class="gates-container">
@@ -71,6 +77,17 @@
                     </div>
                 `;
             }).join('');
+
+            // Reset Button Logic
+            const resetBtn = document.getElementById('reset-btn');
+            if (resetBtn) {
+                resetBtn.onclick = async () => {
+                    if (confirm("RESET ALL PROGRESS? This defaults you back to Gate 1.")) {
+                        await fetch(`${CONFIG.API_BASE_URL}/api/reset_progress`, { method: 'POST', credentials: 'include' });
+                        location.reload();
+                    }
+                };
+            }
         }
         init();
     </script>
