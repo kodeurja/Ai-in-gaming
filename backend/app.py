@@ -254,15 +254,12 @@ def solve_puzzle():
             state.current_step += 1
         db.session.commit()
         
-        # Determine next destination based on new current_step
-        if state.current_step <= 5:
-            # Next puzzle
-            next_url = f"puzzle.html?step={state.current_step}"
-        elif state.current_step == 6:
-            # Quiz time
+        # After completing puzzle, go to next gate's quiz (or dashboard if done)
+        if state.current_step <= 6:
+            # Go to next gate's quiz
             next_url = "quiz_setup.html"
         else:
-            # All done, back to dashboard
+            # All 6 gates completed, back to dashboard
             next_url = "game_dashboard.html"
             
         return jsonify({"success": True, "next_url": next_url})
@@ -337,10 +334,11 @@ def submit_quiz():
     db.session.commit()
     
     state = get_or_create_game_state(current_user.id)
+    # After passing quiz, go to the puzzle for this gate
     return jsonify({
         "success": True, 
         "passed": True, 
-        "redirect": str(state.current_step)
+        "redirect": f"puzzle.html?step={state.current_step}"
     })
 
 @app.route("/api/puzzle/<int:step>")
