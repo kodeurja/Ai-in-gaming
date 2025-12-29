@@ -58,7 +58,8 @@
         </main>
     </div>
 
-    <script src="js/puzzles.js"></script>
+    <script src="js/puzzles.js"
+        onerror="alert('Failed to load puzzles.js'); document.getElementById('puzzle-title').innerText='SCRIPT ERROR';"></script>
     <script type="module">
         import Auth from './js/auth.js';
         import CONFIG from './js/config.js';
@@ -82,6 +83,9 @@
 
                 if (typeof PuzzleManager !== 'undefined') {
                     PuzzleManager.init(puzzleType, step, puzzleData);
+                } else {
+                    alert("CRITICAL ERROR: PuzzleManager not loaded. Check connection or refresh.");
+                    document.getElementById('puzzle-desc').innerText = "FATAL ERROR: SCRIPT LOAD FAILED";
                 }
             } else {
                 alert(data.message);
