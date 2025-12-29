@@ -100,6 +100,10 @@
             console.log("Puzzle solved response:", data);
             if (data.success) {
                 console.log("Navigating to:", data.next_url);
+                // Visual feedback for user
+                const nextStep = data.next_url.includes('quiz_setup') ? "GATE " + data.next_url.split('=')[1] : "DASHBOARD";
+                alert(`PUZZLE SOLVED! \n\nSync Complete. \nNavigating to: ${nextStep} PROTOCOL.`);
+
                 window.location.href = data.next_url;
             }
         };
@@ -121,9 +125,6 @@
             btn.disabled = false;
         };
 
-        document.getElementById('finish-btn').onclick = () => {
-            window.location.href = 'game_dashboard.html';
-        };
 
         document.getElementById('reboot-btn').onclick = async () => {
             if (confirm("REBOOT SYSTEM? This will regenerate a new puzzle.")) {
