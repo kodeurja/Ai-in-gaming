@@ -161,6 +161,19 @@ def roadmap():
     """Learning Roadmap Section."""
     return render_template('roadmap.html')
 
+@app.route("/api/reset_progress", methods=['POST'])
+@login_required
+def reset_progress():
+    state = get_or_create_game_state(current_user.id)
+    state.current_step = 1
+    state.current_cycle = 1
+    # Also clear logs for step 1? Or just let them be overwritten?
+    # Logic in solve_puzzle checks for existing log.
+    # We should clear puzzle logs for step 1 to be safe, or allow re-solving.
+    # Actually solve_puzzle updates existing log if found.
+    db.session.commit()
+    return jsonify({"success": True, "message": "Progress reset to Gate 1"})
+
 @app.route("/api/game_state")
 @login_required
 def game_state_api():
