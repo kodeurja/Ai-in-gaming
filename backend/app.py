@@ -242,7 +242,10 @@ def puzzle_hint():
 @login_required
 def solve_puzzle():
     data = request.json
-    step = data.get('step')
+    try:
+        step = int(data.get('step'))
+    except (ValueError, TypeError):
+        return jsonify({"success": False, "message": "Invalid step"}), 400
     
     state = GameState.query.filter_by(user_id=current_user.id).first()
     log = PuzzleLog.query.filter_by(user_id=current_user.id, cycle=state.current_cycle, step=step).first()
