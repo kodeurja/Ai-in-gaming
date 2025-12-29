@@ -1,37 +1,48 @@
-# Execution Guide: AI Gaming Platform
+# Local Execution Guide: AI Gaming Platform 🎮🏠
 
-Follow these steps to set up and run the project on your local machine.
+Follow these steps to run the decoupled Frontend and Backend locally.
 
-## Prerequisites
-- Python 3.8 or higher installed.
-- An API Key (Groq or Gemini) - see `api_keys.md`.
+## 🟢 Part 1: Backend Setup (Flask)
 
-## Step 1: Install Dependencies
-Open your terminal in the project folder and run:
-```bash
-pip install -r backend/requirements.txt
-```
+1.  **Install Dependencies**:
+    Open a terminal in the project root and run:
+    ```powershell
+    pip install -r backend/requirements.txt
+    ```
+2.  **Environment Configuration**:
+    -   Inside the `backend` folder, copy `.env.example` to `.env`.
+    -   Set `DATABASE_URL=sqlite:///local.db` (for easy local testing).
+    -   Set `FRONTEND_URL=http://localhost:5173` (to allow Vite to connect).
+3.  **Run Backend**:
+    ```powershell
+    python backend/app.py
+    ```
+    (The backend server will run at `http://127.0.0.1:5000`)
 
-## Step 2: Configure Environment
-1.  Navigate to the `backend` folder.
-2.  Copy the `.env.example` file and rename it to `.env`.
-3.  Open `.env` in a text editor and add your `GROQ_API_KEY` and `DATABASE_URL` (for Supabase).
+---
 
-## Step 3: Run the Application
-Run the Flask server from the root directory:
-```bash
-python backend/app.py
-```
-You should see output indicating the server is running, usually at `http://127.0.0.1:5000`.
+## 🔵 Part 2: Frontend Setup (Vite)
 
-## Step 4: Play the Game
-1.  Open your browser and go to `http://127.0.0.1:5000`.
-2.  **Sign Up** for a new account.
-3.  Go to **Create Persona** to customize your avatar.
-4.  Go to **My Game** (Dashboard) to see your puzzles.
-5.  Click on **Puzzle 1** to start playing.
-6.  Complete the puzzle to unlock the next level and eventually the AI Quiz.
+1.  **Install Node Dependencies**:
+    Navigate into the `frontend` folder and run:
+    ```powershell
+    npm install
+    ```
+2.  **Environment Configuration**:
+    -   Inside the `frontend` folder, create a file named `.env`.
+    -   Add this line: `VITE_BACKEND_URL=http://127.0.0.1:5000`
+3.  **Run Frontend**:
+    ```powershell
+    npm run dev
+    ```
+    (The Vite dev server will run at `http://localhost:5173`)
 
-## Troubleshooting
-- **Database Error**: If you see database errors, delete `instance/site.db` (if it exists) and restart the app. The app automatically creates the DB on start.
-- **API Error**: Ensure your `.env` file has the correct API key and no extra spaces.
+---
+
+## ✅ Step 3: Start Playing
+1.  Open your browser to `http://localhost:5173`.
+2.  Sign Up, create your persona, and start the missions!
+
+## 🛠️ Troubleshooting
+- **CORS Error**: If the frontend can't talk to the backend, double-check that `FRONTEND_URL` in `backend/.env` exactly matches your browser URL.
+- **Node.js**: You must have [Node.js](https://nodejs.org/) installed to run the `npm` commands.

@@ -149,7 +149,7 @@
             if (data.success && data.passed) {
                 document.getElementById('progress-text').innerText = "SYNC RATE: 100%";
                 showCustomModal("ACCESS GRANTED", ">> GATE UNLOCKED. PROCEED TO NODE.", true, () => {
-                    window.location.href = `puzzle.html?step=${data.redirect.split('/').pop()}`;
+                    window.location.href = `puzzle.html?step=${data.redirect}`;
                 });
             } else {
                 showCustomModal("VERIFICATION FAILED", ">> CRITICAL ERROR: ACCESS DENIED. RETRYING SEQUENCE.", false, () => {
