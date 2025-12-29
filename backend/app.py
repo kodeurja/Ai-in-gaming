@@ -294,9 +294,10 @@ def solve_puzzle():
         print(f"DEBUG: Puzzle {step} solved. New current_step: {state.current_step}")
         
         # After completing puzzle, go to next gate's quiz (or dashboard if done)
-        if state.current_step <= 6:
+        next_seq_step = step + 1
+        if next_seq_step <= 6:
             # Go to next gate's quiz with step parameter
-            next_url = f"quiz_setup.html?step={state.current_step}"
+            next_url = f"quiz_setup.html?step={next_seq_step}"
             print(f"DEBUG: Navigating to {next_url}")
         else:
             # All 6 gates completed, back to dashboard
