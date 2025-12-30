@@ -41,11 +41,15 @@ CORS(app, supports_credentials=True, origins=[frontend_url, "http://127.0.0.1:55
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-dev-key')
 
 # Check if running on Vercel (Read-Only FS)
+# Check if running on Vercel (Read-Only FS)
 if os.environ.get('VERCEL'):
-    # Use /tmp directory which is writable
-    db_url = os.getenv('DATABASE_URL', 'sqlite:////tmp/test.db')
-    print("DEBUG: Running on Vercel, using /tmp/test.db")
+    # STRICT MODE: User requested Supabase only.
+    db_url = os.getenv('DATABASE_URL')
+    if not db_url:
+        raise RuntimeError("CRITICAL: DATABASE_URL is missing on Vercel. Please add your Supabase connection string to Vercel Environment Variables.")
+    print("DEBUG: Running on Vercel with Supabase")
 else:
+    # Local fallback for development
     db_url = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 
 if db_url and db_url.startswith("postgres://"):
