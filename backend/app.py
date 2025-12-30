@@ -121,7 +121,7 @@ def health():
 def home():
     return jsonify({"message": "API is running. Connect via frontend."})
 
-@app.route("/signup", methods=['POST'])
+@app.route("/api/signup", methods=['POST'])
 def signup():
     data = request.json or request.form
     username = data.get('username')
@@ -142,7 +142,7 @@ def signup():
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
 
-@app.route("/login", methods=['POST'])
+@app.route("/api/login", methods=['POST'])
 def login():
     data = request.json or request.form
     username = data.get('username')
@@ -155,7 +155,7 @@ def login():
     else:
         return jsonify({"success": False, "message": "Login Unsuccessful."}), 401
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
     logout_user()
     return jsonify({"success": True, "message": "Logged out."})

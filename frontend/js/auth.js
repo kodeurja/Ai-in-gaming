@@ -15,7 +15,7 @@ const Auth = {
 
     async logout() {
         try {
-            await fetch(`${CONFIG.API_BASE_URL}/logout`, {
+            await fetch(`${CONFIG.API_BASE_URL}/api/logout`, {
                 credentials: 'include'
             });
             window.location.href = 'index.html';
