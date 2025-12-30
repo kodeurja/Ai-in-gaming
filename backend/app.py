@@ -39,7 +39,14 @@ def handle_exception(e):
 frontend_url = os.getenv('FRONTEND_URL', '*')
 CORS(app, supports_credentials=True, origins=[frontend_url, "http://127.0.0.1:5500", "http://localhost:5500"])
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default-dev-key')
-db_url = os.getenv('DATABASE_URL', 'sqlite:///test.db')
+
+# Check if running on Vercel (Read-Only FS)
+if os.environ.get('VERCEL'):
+    # Use /tmp directory which is writable
+    db_url = os.getenv('DATABASE_URL', 'sqlite:////tmp/test.db')
+    print("DEBUG: Running on Vercel, using /tmp/test.db")
+else:
+    db_url = os.getenv('DATABASE_URL', 'sqlite:///site.db')
 
 if db_url and db_url.startswith("postgres://"):
     db_url = db_url.replace("postgres://", "postgresql://", 1)
