@@ -1,0 +1,30 @@
+services:
+  # Backend API
+  - type: web
+    name: ai-gaming-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir backend app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        value: sqlite:////tmp/site.db
+      - key: FRONTEND_URL
+        fromService:
+            type: static
+            name: ai-gaming-frontend
+            property: url
+
+  # Frontend Static Site
+  - type: static
+    name: ai-gaming-frontend
+    env: node
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_BACKEND_URL
+        fromService:
+            type: web
+            name: ai-gaming-backend
+            property: url
