@@ -13,6 +13,40 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 load_dotenv(os.path.join(os.path.dirname(basedir), '.env'))
 
+from urllib.parse import quote_plus
+
+def sanitize_db_url(url):
+    """
+    Robustly handles special characters in DB passwords (like '@' or '#').
+    Example: postgresql://user:p@ssword@host:5432/db
+    """
+    if not url or not url.startswith("postgres"):
+        return url
+    
+    # Standardize scheme
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+        
+    try:
+        # Split scheme
+        scheme, rest = url.split("://", 1)
+        
+        # The password part is between the first ':' and the LAST '@'
+        if "@" in rest:
+            # Find the last '@' which separates credentials from host
+            creds, host_part = rest.rsplit("@", 1)
+            
+            if ":" in creds:
+                user, password = creds.split(":", 1)
+                # Re-encode the password to handle special chars like '@', '#', etc.
+                # quote_plus is safer than quote for passwords
+                clean_url = f"{scheme}://{user}:{quote_plus(password)}@{host_part}"
+                return clean_url
+    except Exception as e:
+        print(f"URL Sanitization Error: {e}")
+        
+    return url
+
 try:
     from backend.models import db, User, Persona, GameState, PuzzleLog, QuizLog, GateProgress, QuestionHistory
     from backend.ai_engine import AIEngine
@@ -70,9 +104,8 @@ else:
     else:
         print("DEBUG: Running Locally with Supabase/Remote DB")
 
-# Final URI Check
-if db_url and db_url.startswith("postgres://"):
-    db_url = db_url.replace("postgres://", "postgresql://", 1)
+# Final URI Check & Sanitization
+db_url = sanitize_db_url(db_url)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db_url or 'sqlite:///' # Fallback to avoid None error
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
