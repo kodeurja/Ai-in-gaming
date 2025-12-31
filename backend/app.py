@@ -49,6 +49,13 @@ def sanitize_db_url(url):
                 # Re-encode only the password part to handle special chars like '@', '#', etc.
                 # quote_plus handles spaces and special chars safely.
                 clean_url = f"{scheme}://{user}:{quote_plus(password)}@{host_part}"
+                
+                # Vercel/Supabase specific: ensure sslmode=require
+                if "?" not in clean_url:
+                    clean_url += "?sslmode=require"
+                elif "sslmode=" not in clean_url:
+                    clean_url += "&sslmode=require"
+                    
                 return clean_url
     except Exception as e:
         print(f"URL Sanitization Error: {e}")
